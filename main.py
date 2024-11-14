@@ -24,6 +24,8 @@ class Deck:
     def shuffle(self):
         random.shuffle(self.allCards)
 
+    def dealOne(self):
+        return self.allCard.pop()
 
 
 newDeck = Deck()
