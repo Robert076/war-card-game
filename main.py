@@ -45,12 +45,68 @@ class Player:
         return f"Player {self.name} has {len(self.allCards)} cards."
 
 
+
+playerOne = Player("One")
+playerTwo = Player("Two")
+
 newDeck = Deck()
 newDeck.shuffle()
-for card in newDeck.allCards:
-    print(card)
 
-newPlayer = Player('Jose')
-print(newPlayer)
-newPlayer.addCards(newDeck.dealOne())
-print(newPlayer)
+for x in range(26):
+    playerOne.addCards(newDeck.dealOne())
+    playerTwo.addCards(newDeck.dealOne())
+
+gameOn = True
+roundNumber = 0
+
+while gameOn:
+    roundNumber += 1
+    print(f"Round {roundNumber}")
+    
+    if len(playerOne.allCards) == 0:
+        print("Player One, out of cards! Player Two wins!")
+        gameOn = False
+        break
+    if len(playerTwo.allCards) == 0:
+        print("Player Two, out of cards! Player One wins!")
+        gameOn = False
+        break
+    
+    # start new round
+    
+    playerOneCards = [] # the cards p1 will leave on the table
+    playerOneCards.append(playerOne.removeOne())
+    
+    playerTwoCards = [] # same but p2
+    playerTwoCards.append(playerTwo.removeOne())
+    
+    atWar = True
+    while atWar:
+        if playerOneCards[-1].value > playerTwoCards[-1].value:
+            playerOne.addCards(playerOneCards)
+            playerOne.addCards(playerTwoCards)
+            atWar = False
+            
+        elif playerOneCards[-1].value < playerTwoCards[-1].value:
+            playerTwo.addCards(playerOneCards)
+            playerTwo.addCards(playerTwoCards)
+            atWar = False
+
+        else:
+            print("WAR!")
+            
+            if len(playerOne.allCards) < 3:
+                print("Player One unable to declare war")
+                print("Player Two wins!")
+                gameOn = False
+                break
+            elif len(playerTwo.allCards) < 3:
+                print("Player Two unable to declare war")
+                print("Player One wins!")
+                gameOn = False
+                break
+            else:
+                for num in range(3):
+                    playerOneCards.append(playerOne.removeOne())
+                    playerTwoCards.append(playerTwo.removeOne())
+            
