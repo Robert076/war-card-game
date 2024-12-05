@@ -25,10 +25,32 @@ class Deck:
         random.shuffle(self.allCards)
 
     def dealOne(self):
-        return self.allCard.pop()
+        return self.allCards.pop()
+
+class Player:
+    def __init__(self, name):
+        self.name = name
+        self.allCards = []
+    
+    def removeOne(self):
+        return self.allCards.pop(0)
+    
+    def addCards(self, newCards):
+        if type(newCards) == type([]): # we are adding multiple cards
+            self.allCards.extend(newCards)
+        else:
+            self.allCards.append(newCards) # a single card
+    
+    def __str__(self):
+        return f"Player {self.name} has {len(self.allCards)} cards."
 
 
 newDeck = Deck()
 newDeck.shuffle()
 for card in newDeck.allCards:
     print(card)
+
+newPlayer = Player('Jose')
+print(newPlayer)
+newPlayer.addCards(newDeck.dealOne())
+print(newPlayer)
